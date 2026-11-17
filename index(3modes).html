@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英語小達人：a / an 冠詞大冒險</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Google Fonts: Nunito (圓潤英文字體) 與 Noto Sans TC (繁體中文) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;900&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- 引入 Canvas Confetti 製作答對慶祝彩帶效果 -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        body {
+            font-family: 'Nunito', 'Noto Sans TC', sans-serif;
+            background-color: #FFFDF5;
+            background-image: radial-gradient(#FDE68A 2px, transparent 2px), radial-gradient(#BAE6FD 2px, #FFFDF5 2px);
+            background-size: 48px 48px;
+            background-position: 0 0, 24px 24px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* 3D 立體按鈕效果 */
+        .btn-3d {
+            transition: all 0.1s ease;
+            box-shadow: 0 7px 0 var(--shadow-color), 0 10px 18px rgba(0,0,0,0.12);
+        }
+        .btn-3d:active:not(:disabled) {
+            transform: translateY(5px);
+            box-shadow: 0 2px 0 var(--shadow-color), 0 4px 8px rgba(0,0,0,0.12);
+        }
+        .btn-3d:disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+
+        /* 搖晃動畫 (答錯時) */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px) rotate(-2deg); }
+            40% { transform: translateX(10px) rotate(2deg); }
+            60% { transform: translateX(-8px) rotate(-1deg); }
+            80% { transform: translateX(8px) rotate(1deg); }
+        }
+        .animate-shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+        }
+
+        /* 彈跳放大動畫 */
+        @keyframes popIn {
+            0% { transform: scale(0.85); opacity: 0; }
+            70% { transform: scale(1.04); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .animate-pop {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* 隱藏數字輸入框上下箭頭 */
+        input[type=number]::-webkit-inner-spin-button, 
+        input[type=number]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between text-slate-800 overflow-x-hidden">
+
+    <!-- ==================== 畫面 1：模式選擇與老師設定主畫面 ==================== -->
+    <div id="setup-screen" class="flex-1 w-full max-w-4xl mx-auto px-4 py-6 sm:py-10 flex flex-col items-center justify-center">
+        
+        <!-- 標題區 -->
+        <div class="text-center mb-6 sm:mb-8 animate-pop">
+            <div class="inline-flex items-center gap-2 bg-amber-100 border-2 border-amber-300 text-amber-800 px-4 py-1 rounded-full text-sm font-extrabold mb-3 shadow-sm">
+                <span>🏫</span>
+                <span>國小二年級英語冠詞練習</span>
+            </div>
+            <h1 class="text-4xl sm:text-5xl font-black text-slate-800 tracking-tight mb-2">
+                <span class="text-sky-500">a</span> / <span class="text-rose-500">an</span> 冠詞大挑戰
+            </h1>
+            <p class="text-slate-600 font-bold text-base sm:text-lg">請老師選擇練習模式並設定參數，準備好就可以開始囉！</p>
+        </div>
+
+        <!-- 三大模式選擇卡片 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
+            
+            <!-- 模式 1：練習模式 -->
+            <div class="bg-white rounded-[2rem] p-6 shadow-xl border-4 border-emerald-200 flex flex-col justify-between hover:border-emerald-400 transition-all">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-3xl mb-4 border-2 border-emerald-200">
+                        🎯
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 mb-1">1. 練習模式</h2>
+                    <p class="text-sm font-bold text-slate-500 mb-5">無時間壓力，適合課堂暖身或個人穩固練習。</p>
+
+                    <!-- 子選項切換 -->
+                    <div class="space-y-2.5 mb-6">
+                        <label class="flex items-center gap-3 p-3 rounded-2xl border-2 border-emerald-200 bg-emerald-50/60 cursor-pointer hover:bg-emerald-50 transition">
+                            <input type="radio" name="practice-submode" value="10" checked class="w-5 h-5 accent-emerald-600">
+                            <div>
+                                <div class="font-extrabold text-slate-800 text-sm">10 題小測驗</div>
+                                <div class="text-xs font-bold text-slate-500">完成 10 題顯示得分與複習</div>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 rounded-2xl border-2 border-slate-200 bg-slate-50/60 cursor-pointer hover:bg-slate-50 transition">
+                            <input type="radio" name="practice-submode" value="infinite" class="w-5 h-5 accent-emerald-600">
+                            <div>
+                                <div class="font-extrabold text-slate-800 text-sm">無限自由練習</div>
+                                <div class="text-xs font-bold text-slate-500">不限題數，適合全班輪流搶答</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <button onclick="startPracticeMode()" style="--shadow-color: #059669;" class="btn-3d w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black text-lg py-3.5 rounded-2xl border-2 border-emerald-300 cursor-pointer">
+                    開始練習 ▶
+                </button>
+            </div>
+
+            <!-- 模式 2：限時模式 (倒數計時) -->
+            <div class="bg-white rounded-[2rem] p-6 shadow-xl border-4 border-sky-200 flex flex-col justify-between hover:border-sky-400 transition-all">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-sky-100 text-sky-600 flex items-center justify-center text-3xl mb-4 border-2 border-sky-200">
+                        ⏳
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 mb-1">2. 限時挑戰</h2>
+                    <p class="text-sm font-bold text-slate-500 mb-4">設定倒數時間，計算時間內一共答對幾題！</p>
+
+                    <!-- 老師設定時間 -->
+                    <div class="mb-5">
+                        <div class="text-xs font-extrabold text-sky-800 mb-2">設定倒數秒數：</div>
+                        <div class="grid grid-cols-4 gap-1.5 mb-2.5">
+                            <button type="button" onclick="setTimedPreset(30)" class="timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 transition">30秒</button>
+                            <button type="button" onclick="setTimedPreset(60)" class="timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-500 bg-sky-500 text-white transition">60秒</button>
+                            <button type="button" onclick="setTimedPreset(90)" class="timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 transition">90秒</button>
+                            <button type="button" onclick="setTimedPreset(120)" class="timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 transition">120秒</button>
+                        </div>
+                        <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-xl border-2 border-slate-200">
+                            <span class="text-xs font-bold text-slate-500 pl-1">自訂：</span>
+                            <input id="custom-time-input" type="number" min="5" max="600" value="60" oninput="clearPresetHighlight('timed-preset-btn')" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-center font-black text-sky-700 text-base focus:outline-none focus:border-sky-500">
+                            <span class="text-xs font-extrabold text-slate-600 pr-1">秒</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="startTimedMode()" style="--shadow-color: #0284C7;" class="btn-3d w-full bg-sky-500 hover:bg-sky-600 text-white font-black text-lg py-3.5 rounded-2xl border-2 border-sky-300 cursor-pointer">
+                    開始限時挑戰 ▶
+                </button>
+            </div>
+
+            <!-- 模式 3：計時任務模式 (正計時達成題數) -->
+            <div class="bg-white rounded-[2rem] p-6 shadow-xl border-4 border-rose-200 flex flex-col justify-between hover:border-rose-400 transition-all">
+                <div>
+                    <div class="w-14 h-14 rounded-2xl bg-rose-100 text-rose-600 flex items-center justify-center text-3xl mb-4 border-2 border-rose-200">
+                        ⏱️
+                    </div>
+                    <h2 class="text-2xl font-black text-slate-800 mb-1">3. 計時任務</h2>
+                    <p class="text-sm font-bold text-slate-500 mb-4">設定目標答對題數，測測看花多久完成任務！</p>
+
+                    <!-- 老師設定目標題數 -->
+                    <div class="mb-5">
+                        <div class="text-xs font-extrabold text-rose-800 mb-2">設定目標答對題數：</div>
+                        <div class="grid grid-cols-4 gap-1.5 mb-2.5">
+                            <button type="button" onclick="setTargetPreset(5)" class="target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 transition">5題</button>
+                            <button type="button" onclick="setTargetPreset(10)" class="target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-500 bg-rose-500 text-white transition">10題</button>
+                            <button type="button" onclick="setTargetPreset(15)" class="target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 transition">15題</button>
+                            <button type="button" onclick="setTargetPreset(20)" class="target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 transition">20題</button>
+                        </div>
+                        <div class="flex items-center gap-2 bg-slate-50 p-2 rounded-xl border-2 border-slate-200">
+                            <span class="text-xs font-bold text-slate-500 pl-1">自訂：</span>
+                            <input id="custom-target-input" type="number" min="1" max="100" value="10" oninput="clearPresetHighlight('target-preset-btn')" class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1 text-center font-black text-rose-700 text-base focus:outline-none focus:border-rose-500">
+                            <span class="text-xs font-extrabold text-slate-600 pr-1">題</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="startTargetMode()" style="--shadow-color: #E11D48;" class="btn-3d w-full bg-rose-500 hover:bg-rose-600 text-white font-black text-lg py-3.5 rounded-2xl border-2 border-rose-300 cursor-pointer">
+                    開始計時任務 ▶
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==================== 畫面 2：進行中遊戲介面 ==================== -->
+    <div id="game-screen" class="hidden flex-1 flex flex-col justify-between w-full">
+        
+        <!-- 頂部狀態與控制列 -->
+        <header class="w-full max-w-3xl mx-auto px-4 pt-4 pb-2">
+            <div class="bg-white/95 backdrop-blur-sm rounded-3xl p-3 sm:p-4 shadow-md border-4 border-amber-200 flex flex-wrap items-center justify-between gap-2">
+                
+                <!-- 左側：動態數據顯示區 (依模式改變) -->
+                <div class="flex items-center gap-2.5 sm:gap-3">
+                    <!-- 指標 1：答對題數 / 得分 -->
+                    <div class="flex items-center gap-1.5 bg-amber-100 px-3 sm:px-3.5 py-1.5 rounded-2xl border-2 border-amber-300">
+                        <span id="stat1-icon" class="text-xl sm:text-2xl">⭐</span>
+                        <div>
+                            <div id="stat1-label" class="text-[10px] sm:text-xs font-bold text-amber-800 leading-none">得分</div>
+                            <div id="stat1-value" class="text-lg sm:text-xl font-black text-amber-950 leading-tight">0</div>
+                        </div>
+                    </div>
+
+                    <!-- 指標 2：計時器 / 連勝 / 目標進度 -->
+                    <div id="stat2-box" class="flex items-center gap-1.5 bg-sky-100 px-3 sm:px-3.5 py-1.5 rounded-2xl border-2 border-sky-300 transition-colors">
+                        <span id="stat2-icon" class="text-xl sm:text-2xl">🔥</span>
+                        <div>
+                            <div id="stat2-label" class="text-[10px] sm:text-xs font-bold text-sky-800 leading-none">連勝</div>
+                            <div id="stat2-value" class="text-lg sm:text-xl font-black text-sky-950 leading-tight tabular-nums">0</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側：模式標籤與返回設定按鈕 -->
+                <div class="flex items-center gap-2">
+                    <span id="current-mode-badge" class="hidden sm:inline-block px-3 py-1.5 rounded-xl text-xs font-black bg-slate-100 text-slate-600 border border-slate-200">
+                        練習模式
+                    </span>
+                    <button onclick="returnToSetup()" class="px-3.5 py-2 rounded-2xl text-xs sm:text-sm font-extrabold bg-amber-50 text-amber-800 border-2 border-amber-300 hover:bg-amber-100 active:scale-95 transition flex items-center gap-1 cursor-pointer">
+                        <span>⚙️</span>
+                        <span>模式設定</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 進度條 (適用於 10題練習 與 計時任務模式) -->
+            <div id="progress-container" class="mt-3 px-2">
+                <div class="flex justify-between text-xs font-bold text-slate-600 mb-1 px-1">
+                    <span id="progress-title">測驗進度</span>
+                    <span id="progress-text">第 1 / 10 題</span>
+                </div>
+                <div class="w-full h-4 bg-white rounded-full p-1 shadow-inner border-2 border-amber-200">
+                    <div id="progress-bar" class="h-full bg-gradient-to-r from-amber-400 to-orange-500 rounded-full transition-all duration-300" style="width: 10%;"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 中央單字卡片區 -->
+        <main class="flex-1 w-full max-w-2xl mx-auto px-4 py-2 flex flex-col items-center justify-center">
+            <div id="word-card" class="w-full bg-white rounded-[2.5rem] p-6 sm:p-10 shadow-xl border-4 border-sky-200 relative flex flex-col items-center text-center animate-pop">
+                
+                <!-- 右上角語音重聽按鈕 -->
+                <button onclick="speakCurrentWord()" class="absolute top-4 right-4 sm:top-6 sm:right-6 w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-amber-100 hover:bg-amber-200 active:scale-95 text-amber-700 border-2 border-amber-300 flex items-center justify-center shadow-sm transition cursor-pointer" title="再聽一次發音">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 sm:w-8 sm:h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                    </svg>
+                </button>
+
+                <!-- 圖片 / Emoji -->
+                <div id="word-emoji" class="text-7xl sm:text-8xl mb-4 drop-shadow-sm select-none transform transition-transform hover:scale-110 cursor-pointer" onclick="speakCurrentWord()">
+                    🍎
+                </div>
+
+                <!-- 英文填空與單字 (無任何首字母提示) -->
+                <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 my-2">
+                    <div id="article-slot" class="min-w-[4.5rem] sm:min-w-[5.5rem] h-14 sm:h-16 px-3 rounded-2xl border-4 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-3xl sm:text-4xl font-black text-slate-400 transition-all">
+                        ?
+                    </div>
+                    <div id="word-text" class="text-4xl sm:text-6xl font-black tracking-wide text-slate-800">
+                        apple
+                    </div>
+                </div>
+
+                <!-- 中文意思 -->
+                <div id="word-chinese" class="mt-2 px-5 py-1.5 rounded-full bg-slate-100 text-slate-600 font-bold text-lg sm:text-xl">
+                    蘋果
+                </div>
+
+                <!-- 即時回饋訊息框 (純鼓勵，無規則提示) -->
+                <div id="feedback-banner" class="mt-4 min-h-[3.2rem] w-full rounded-2xl px-4 py-2 flex items-center justify-center text-base sm:text-lg font-extrabold transition-all opacity-0">
+                </div>
+            </div>
+        </main>
+
+        <!-- 底部選擇按鈕區 (純 a / an，無規則提示文字) -->
+        <footer class="w-full max-w-2xl mx-auto px-4 pt-2 pb-6 sm:pb-8">
+            <div class="grid grid-cols-2 gap-4 sm:gap-6">
+                <button id="btn-a" onclick="checkAnswer('a')" style="--shadow-color: #0284C7;" class="btn-3d bg-sky-400 hover:bg-sky-500 text-white rounded-3xl py-6 sm:py-7 px-4 flex flex-col items-center justify-center border-4 border-sky-200 cursor-pointer">
+                    <span class="text-5xl sm:text-6xl font-black leading-none mb-1.5">a</span>
+                    <span class="text-xs sm:text-sm font-bold text-sky-100 bg-sky-600/40 px-3 py-0.5 rounded-full">按鍵 ← 或 1</span>
+                </button>
+
+                <button id="btn-an" onclick="checkAnswer('an')" style="--shadow-color: #E11D48;" class="btn-3d bg-rose-500 hover:bg-rose-600 text-white rounded-3xl py-6 sm:py-7 px-4 flex flex-col items-center justify-center border-4 border-rose-200 cursor-pointer">
+                    <span class="text-5xl sm:text-6xl font-black leading-none mb-1.5">an</span>
+                    <span class="text-xs sm:text-sm font-bold text-rose-100 bg-rose-700/40 px-3 py-0.5 rounded-full">按鍵 → 或 2</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ==================== 畫面 3：回合結算 Modal ==================== -->
+    <div id="summary-modal" class="fixed inset-0 bg-slate-900/65 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2.5rem] max-w-lg w-full p-6 sm:p-8 border-4 border-amber-300 shadow-2xl text-center animate-pop max-h-[90vh] flex flex-col">
+            <h2 id="summary-title" class="text-3xl sm:text-4xl font-black text-amber-600 mb-1">🎉 任務完成！</h2>
+            <p id="summary-subtitle" class="text-sm sm:text-base font-bold text-slate-500 mb-2"></p>
+            
+            <!-- 星星評價 -->
+            <div id="summary-stars" class="text-5xl sm:text-6xl my-2 flex justify-center gap-2 drop-shadow">
+                ⭐⭐⭐
+            </div>
+
+            <!-- 數據統計卡片 (依模式動態顯示重點數據) -->
+            <div class="grid grid-cols-2 gap-3 bg-amber-50 p-4 rounded-2xl border-2 border-amber-200 mb-4">
+                <div>
+                    <div id="summary-metric1-label" class="text-xs font-bold text-amber-700">總得分</div>
+                    <div id="summary-metric1-value" class="text-2xl sm:text-3xl font-black text-amber-900">100</div>
+                </div>
+                <div>
+                    <div id="summary-metric2-label" class="text-xs font-bold text-amber-700">一次答對率</div>
+                    <div id="summary-metric2-value" class="text-2xl sm:text-3xl font-black text-emerald-600">100%</div>
+                </div>
+            </div>
+
+            <!-- 錯題複習區 -->
+            <div id="mistakes-section" class="flex-1 overflow-y-auto no-scrollbar mb-5 text-left hidden">
+                <div class="text-sm font-extrabold text-rose-600 mb-2 flex items-center gap-1">
+                    <span>📝 小複習（點擊單字聽發音）：</span>
+                </div>
+                <div id="mistakes-list" class="space-y-2">
+                </div>
+            </div>
+
+            <!-- 全對鼓勵訊息 -->
+            <div id="perfect-banner" class="mb-5 bg-emerald-50 border-2 border-emerald-200 text-emerald-700 font-bold p-3 rounded-2xl hidden">
+                太厲害了！全部一次就答對！🏆
+            </div>
+
+            <!-- 底部操作按鈕 -->
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="returnToSetup()" style="--shadow-color: #64748B;" class="btn-3d bg-slate-500 hover:bg-slate-600 text-white font-black text-base sm:text-lg py-3.5 rounded-2xl border-2 border-slate-300 cursor-pointer">
+                    ⚙️ 切換模式
+                </button>
+                <button onclick="restartCurrentMode()" style="--shadow-color: #059669;" class="btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-black text-base sm:text-lg py-3.5 rounded-2xl border-2 border-emerald-300 cursor-pointer">
+                    🔄 再玩一次
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JavaScript 遊戲邏輯 ==================== -->
+    <script>
+        /**
+         * 1. 二年級程度單字庫 (共 44 個單字，嚴格排除發音例外字)
+         */
+        const WORD_BANK = [
+            // --- 母音開頭 (an) - 18 個 ---
+            { word: "apple", article: "an", chinese: "蘋果", emoji: "🍎" },
+            { word: "alligator", article: "an", chinese: "鱷魚", emoji: "🐊" },
+            { word: "ant", article: "an", chinese: "螞蟻", emoji: "🐜" },
+            { word: "astronaut", article: "an", chinese: "太空人", emoji: "🧑‍🚀" },
+            { word: "arm", article: "an", chinese: "手臂", emoji: "💪" },
+            { word: "ax", article: "an", chinese: "斧頭", emoji: "🪓" },
+            { word: "elephant", article: "an", chinese: "大象", emoji: "🐘" },
+            { word: "egg", article: "an", chinese: "雞蛋", emoji: "🥚" },
+            { word: "eraser", article: "an", chinese: "橡皮擦", emoji: "🧽" },
+            { word: "envelope", article: "an", chinese: "信封", emoji: "✉️" },
+            { word: "elf", article: "an", chinese: "小精靈", emoji: "🧝" },
+            { word: "iguana", article: "an", chinese: "鬣蜥", emoji: "🦎" },
+            { word: "igloo", article: "an", chinese: "冰屋", emoji: "🛖" },
+            { word: "insect", article: "an", chinese: "昆蟲", emoji: "🐞" },
+            { word: "octopus", article: "an", chinese: "章魚", emoji: "🐙" },
+            { word: "orange", article: "an", chinese: "橘子", emoji: "🍊" },
+            { word: "ostrich", article: "an", chinese: "鴕鳥", emoji: "🦤" },
+            { word: "otter", article: "an", chinese: "水獺", emoji: "🦦" },
+            { word: "owl", article: "an", chinese: "貓頭鷹", emoji: "🦉" },
+            { word: "onion", article: "an", chinese: "洋蔥", emoji: "🧅" },
+            { word: "umbrella", article: "an", chinese: "雨傘", emoji: "☂️" },
+            { word: "umpire", article: "an", chinese: "裁判", emoji: "🧑‍⚖️" },
+
+            // --- 子音開頭 (a) - 22 個 ---
+            { word: "cat", article: "a", chinese: "貓咪", emoji: "🐱" },
+            { word: "dog", article: "a", chinese: "小狗", emoji: "🐶" },
+            { word: "pig", article: "a", chinese: "小豬", emoji: "🐷" },
+            { word: "lion", article: "a", chinese: "獅子", emoji: "🦁" },
+            { word: "tiger", article: "a", chinese: "老虎", emoji: "🐯" },
+            { word: "monkey", article: "a", chinese: "猴子", emoji: "🐵" },
+            { word: "rabbit", article: "a", chinese: "兔子", emoji: "🐰" },
+            { word: "bear", article: "a", chinese: "熊", emoji: "🐻" },
+            { word: "fish", article: "a", chinese: "魚", emoji: "🐟" },
+            { word: "bird", article: "a", chinese: "小鳥", emoji: "🐦" },
+            { word: "frog", article: "a", chinese: "青蛙", emoji: "🐸" },
+            { word: "duck", article: "a", chinese: "鴨子", emoji: "🦆" },
+            { word: "book", article: "a", chinese: "書本", emoji: "📘" },
+            { word: "pencil", article: "a", chinese: "鉛筆", emoji: "✏️" },
+            { word: "ruler", article: "a", chinese: "尺", emoji: "📏" },
+            { word: "bag", article: "a", chinese: "書包 / 袋子", emoji: "🎒" },
+            { word: "car", article: "a", chinese: "汽車", emoji: "🚗" },
+            { word: "bus", article: "a", chinese: "公車", emoji: "🚌" },
+            { word: "robot", article: "a", chinese: "機器人", emoji: "🤖" },
+            { word: "banana", article: "a", chinese: "香蕉", emoji: "🍌" },
+            { word: "cookie", article: "a", chinese: "餅乾", emoji: "🍪" },
+            { word: "pizza", article: "a", chinese: "披薩", emoji: "🍕" }
+        ];
+
+        const PRAISE_MESSAGES = [
+            "Great job! 太棒了！🌟",
+            "Awesome! 真是太厲害了！🎉",
+            "Super! 完全正確！✨",
+            "You did it! 你做到了！👏",
+            "Bingo! 聰明小達人！🏆"
+        ];
+
+        /**
+         * 2. 遊戲核心狀態
+         */
+        let state = {
+            mode: 'practice',        // 'practice' | 'timed' | 'target'
+            practiceSubmode: '10',   // '10' | 'infinite'
+            timeLimitSeconds: 60,    // 限時模式設定秒數
+            targetCount: 10,         // 計時任務目標題數
+
+            score: 0,
+            streak: 0,
+            correctCount: 0,         // 累計答對題數
+            questionCount: 0,        // 已出現題數
+            currentWordObj: null,
+            usedWordsInRound: [],
+            mistakesInRound: [],
+            hasFailedCurrent: false,
+            isTransitioning: false,
+            isGameOver: false,
+
+            // 計時器相關
+            timerInterval: null,
+            timeRemaining: 60,       // 倒數剩餘秒數 (支援 0.1 秒精度)
+            elapsedTenths: 0         // 正計時經過的 0.1 秒數
+        };
+
+        /**
+         * 3. 老師設定畫面互動邏輯
+         */
+        function setTimedPreset(seconds) {
+            document.getElementById('custom-time-input').value = seconds;
+            document.querySelectorAll('.timed-preset-btn').forEach(btn => {
+                if (parseInt(btn.textContent) === seconds) {
+                    btn.className = "timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-500 bg-sky-500 text-white transition";
+                } else {
+                    btn.className = "timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 transition";
+                }
+            });
+        }
+
+        function setTargetPreset(count) {
+            document.getElementById('custom-target-input').value = count;
+            document.querySelectorAll('.target-preset-btn').forEach(btn => {
+                if (parseInt(btn.textContent) === count) {
+                    btn.className = "target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-500 bg-rose-500 text-white transition";
+                } else {
+                    btn.className = "target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 transition";
+                }
+            });
+        }
+
+        function clearPresetHighlight(btnClass) {
+            const isSky = btnClass.includes('timed');
+            document.querySelectorAll('.' + btnClass).forEach(btn => {
+                btn.className = isSky
+                    ? "timed-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-sky-200 bg-sky-50 text-sky-700 hover:bg-sky-100 transition"
+                    : "target-preset-btn py-1.5 rounded-xl text-xs font-black border-2 border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100 transition";
+            });
+        }
+
+        function startPracticeMode() {
+            const selected = document.querySelector('input[name="practice-submode"]:checked').value;
+            state.mode = 'practice';
+            state.practiceSubmode = selected;
+            enterGameScreen();
+        }
+
+        function startTimedMode() {
+            let val = parseInt(document.getElementById('custom-time-input').value, 10);
+            if (isNaN(val) || val < 5) val = 30;
+            if (val > 600) val = 600;
+            document.getElementById('custom-time-input').value = val;
+
+            state.mode = 'timed';
+            state.timeLimitSeconds = val;
+            enterGameScreen();
+        }
+
+        function startTargetMode() {
+            let val = parseInt(document.getElementById('custom-target-input').value, 10);
+            if (isNaN(val) || val < 1) val = 10;
+            if (val > 100) val = 100;
+            document.getElementById('custom-target-input').value = val;
+
+            state.mode = 'target';
+            state.targetCount = val;
+            enterGameScreen();
+        }
+
+        function returnToSetup() {
+            stopAllTimers();
+            window.speechSynthesis?.cancel();
+            document.getElementById('summary-modal').classList.add('hidden');
+            document.getElementById('game-screen').classList.add('hidden');
+            document.getElementById('setup-screen').classList.remove('hidden');
+        }
+
+        function enterGameScreen() {
+            document.getElementById('setup-screen').classList.add('hidden');
+            document.getElementById('summary-modal').classList.add('hidden');
+            document.getElementById('game-screen').classList.remove('hidden');
+            restartCurrentMode();
+        }
+
+        function restartCurrentMode() {
+            stopAllTimers();
+            state.score = 0;
+            state.streak = 0;
+            state.correctCount = 0;
+            state.questionCount = 0;
+            state.usedWordsInRound = [];
+            state.mistakesInRound = [];
+            state.isTransitioning = false;
+            state.isGameOver = false;
+
+            document.getElementById('summary-modal').classList.add('hidden');
+            setupModeHUD();
+
+            if (state.mode === 'timed') {
+                state.timeRemaining = state.timeLimitSeconds;
+                startCountdownTimer();
+            } else if (state.mode === 'target') {
+                state.elapsedTenths = 0;
+                startStopwatchTimer();
+            }
+
+            nextQuestion();
+        }
+
+        /**
+         * 4. 設定不同模式的頂部 HUD 儀表板
+         */
+        function setupModeHUD() {
+            const stat1Icon = document.getElementById('stat1-icon');
+            const stat1Label = document.getElementById('stat1-label');
+            const stat2Box = document.getElementById('stat2-box');
+            const stat2Icon = document.getElementById('stat2-icon');
+            const stat2Label = document.getElementById('stat2-label');
+            const modeBadge = document.getElementById('current-mode-badge');
+            const progressContainer = document.getElementById('progress-container');
+            const progressTitle = document.getElementById('progress-title');
+
+            // 重置 stat2 樣式
+            stat2Box.className = "flex items-center gap-1.5 bg-sky-100 px-3 sm:px-3.5 py-1.5 rounded-2xl border-2 border-sky-300 transition-colors";
+
+            if (state.mode === 'practice') {
+                stat1Icon.textContent = "⭐";
+                stat1Label.textContent = "得分";
+                stat2Icon.textContent = "🔥";
+                stat2Label.textContent = "連勝";
+
+                if (state.practiceSubmode === '10') {
+                    modeBadge.textContent = "🎯 練習模式 (10題)";
+                    progressContainer.classList.remove('hidden');
+                    progressTitle.textContent = "測驗進度";
+                } else {
+                    modeBadge.textContent = "♾️ 無限自由練習";
+                    progressContainer.classList.add('hidden');
+                }
+            } else if (state.mode === 'timed') {
+                stat1Icon.textContent = "✅";
+                stat1Label.textContent = "已答對";
+                stat2Icon.textContent = "⏳";
+                stat2Label.textContent = "剩餘時間";
+                modeBadge.textContent = `⏳ 限時挑戰 (${state.timeLimitSeconds}秒)`;
+                progressContainer.classList.add('hidden');
+            } else if (state.mode === 'target') {
+                stat1Icon.textContent = "🎯";
+                stat1Label.textContent = "完成題數";
+                stat2Icon.textContent = "⏱️";
+                stat2Label.textContent = "經過時間";
+                modeBadge.textContent = `⏱️ 計時任務 (目標 ${state.targetCount} 題)`;
+                progressContainer.classList.remove('hidden');
+                progressTitle.textContent = "任務達成進度";
+            }
+
+            updateScoreboard();
+        }
+
+        function updateScoreboard() {
+            const stat1Val = document.getElementById('stat1-value');
+            const stat2Val = document.getElementById('stat2-value');
+            const stat2Box = document.getElementById('stat2-box');
+
+            if (state.mode === 'practice') {
+                stat1Val.textContent = state.score;
+                stat2Val.textContent = state.streak;
+
+                if (state.practiceSubmode === '10') {
+                    const current = Math.min(state.questionCount, 10);
+                    document.getElementById('progress-text').textContent = `第 ${current} / 10 題`;
+                    document.getElementById('progress-bar').style.width = `${(current / 10) * 100}%`;
+                }
+            } else if (state.mode === 'timed') {
+                stat1Val.textContent = `${state.correctCount} 題`;
+                stat2Val.textContent = `${Math.ceil(state.timeRemaining)} 秒`;
+
+                // 最後 10 秒紅色警示
+                if (state.timeRemaining <= 10) {
+                    stat2Box.className = "flex items-center gap-1.5 bg-rose-100 px-3 sm:px-3.5 py-1.5 rounded-2xl border-2 border-rose-400 text-rose-700 animate-pulse transition-colors";
+                }
+            } else if (state.mode === 'target') {
+                stat1Val.textContent = `${state.correctCount} / ${state.targetCount}`;
+                stat2Val.textContent = formatTenths(state.elapsedTenths);
+
+                document.getElementById('progress-text').textContent = `已完成 ${state.correctCount} / ${state.targetCount} 題`;
+                const pct = Math.min(100, (state.correctCount / state.targetCount) * 100);
+                document.getElementById('progress-bar').style.width = `${pct}%`;
+            }
+        }
+
+        /**
+         * 5. 計時器控制 (倒數 & 正計時)
+         */
+        function stopAllTimers() {
+            if (state.timerInterval) {
+                clearInterval(state.timerInterval);
+                state.timerInterval = null;
+            }
+        }
+
+        function startCountdownTimer() {
+            stopAllTimers();
+            state.timerInterval = setInterval(() => {
+                if (state.isGameOver) return;
+                state.timeRemaining = Math.max(0, +(state.timeRemaining - 0.1).toFixed(1));
+                updateScoreboard();
+
+                if (state.timeRemaining <= 0) {
+                    stopAllTimers();
+                    finishGame('time_up');
+                }
+            }, 100);
+        }
+
+        function startStopwatchTimer() {
+            stopAllTimers();
+            state.timerInterval = setInterval(() => {
+                if (state.isGameOver) return;
+                state.elapsedTenths += 1;
+                updateScoreboard();
+            }, 100);
+        }
+
+        function formatTenths(tenths) {
+            const totalSeconds = tenths / 10;
+            if (totalSeconds < 60) {
+                return `${totalSeconds.toFixed(1)} 秒`;
+            } else {
+                const mins = Math.floor(totalSeconds / 60);
+                const secs = (totalSeconds % 60).toFixed(1).padStart(4, '0');
+                return `${mins}分 ${secs}秒`;
+            }
+        }
+
+        /**
+         * 6. Web Audio API 音效合成器
+         */
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playSoundEffect(type) {
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            const now = audioCtx.currentTime;
+
+            if (type === 'correct') {
+                const notes = [523.25, 659.25, 783.99];
+                notes.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.06);
+                    gain.gain.setValueAtTime(0.22, now + idx * 0.06);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.06 + 0.3);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.06);
+                    osc.stop(now + idx * 0.06 + 0.3);
+                });
+            } else if (type === 'wrong') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(210, now);
+                osc.frequency.linearRampToValueAtTime(165, now + 0.22);
+                gain.gain.setValueAtTime(0.22, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.26);
+            } else if (type === 'win') {
+                const melody = [523.25, 659.25, 783.99, 1046.50];
+                melody.forEach((freq, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.11);
+                    gain.gain.setValueAtTime(0.25, now + idx * 0.11);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.11 + 0.45);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.11);
+                    osc.stop(now + idx * 0.11 + 0.45);
+                });
+            }
+        }
+
+        /**
+         * 7. Web Speech API 英語語音朗讀
+         */
+        function speakEnglish(text, rate = 0.9) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = rate;
+            utterance.pitch = 1.1;
+
+            const voices = window.speechSynthesis.getVoices();
+            const enVoice = voices.find(v => v.lang.includes('en-US') && v.name.includes('Google')) || 
+                            voices.find(v => v.lang.includes('en-US'));
+            if (enVoice) utterance.voice = enVoice;
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function speakCurrentWord() {
+            if (state.currentWordObj && !state.isGameOver) {
+                speakEnglish(state.currentWordObj.word, 0.88);
+            }
+        }
+
+        /**
+         * 8. 出題與答題判定邏輯
+         */
+        function nextQuestion() {
+            if (state.isGameOver) return;
+
+            // 檢查練習模式(10題)是否結束
+            if (state.mode === 'practice' && state.practiceSubmode === '10' && state.questionCount >= 10) {
+                finishGame('practice_complete');
+                return;
+            }
+
+            state.questionCount++;
+            state.hasFailedCurrent = false;
+            state.isTransitioning = false;
+
+            // 隨機挑選不重複單字
+            let availableWords = WORD_BANK.filter(w => !state.usedWordsInRound.includes(w.word));
+            if (availableWords.length === 0) {
+                state.usedWordsInRound = [];
+                availableWords = [...WORD_BANK];
+            }
+
+            const randomIndex = Math.floor(Math.random() * availableWords.length);
+            state.currentWordObj = availableWords[randomIndex];
+            state.usedWordsInRound.push(state.currentWordObj.word);
+
+            renderQuestion();
+            updateScoreboard();
+
+            // 自動朗讀新單字
+            setTimeout(() => {
+                if (!state.isGameOver) speakCurrentWord();
+            }, 180);
+        }
+
+        function renderQuestion() {
+            const wordObj = state.currentWordObj;
+            const card = document.getElementById('word-card');
+            card.classList.remove('animate-pop', 'animate-shake', 'border-emerald-400', 'border-rose-400');
+            card.classList.add('border-sky-200');
+            void card.offsetWidth;
+            card.classList.add('animate-pop');
+
+            document.getElementById('word-emoji').textContent = wordObj.emoji;
+            document.getElementById('word-chinese').textContent = wordObj.chinese;
+
+            const slot = document.getElementById('article-slot');
+            slot.textContent = '?';
+            slot.className = "min-w-[4.5rem] sm:min-w-[5.5rem] h-14 sm:h-16 px-3 rounded-2xl border-4 border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-3xl sm:text-4xl font-black text-slate-400 transition-all";
+
+            // 純粹一致的單字外觀，無首字母提示
+            document.getElementById('word-text').textContent = wordObj.word;
+
+            const banner = document.getElementById('feedback-banner');
+            banner.style.opacity = '0';
+
+            document.getElementById('btn-a').disabled = false;
+            document.getElementById('btn-an').disabled = false;
+        }
+
+        function checkAnswer(selectedArticle) {
+            if (state.isTransitioning || state.isGameOver) return;
+
+            const wordObj = state.currentWordObj;
+            const isCorrect = (selectedArticle === wordObj.article);
+            const card = document.getElementById('word-card');
+            const slot = document.getElementById('article-slot');
+            const banner = document.getElementById('feedback-banner');
+
+            if (isCorrect) {
+                state.isTransitioning = true;
+                document.getElementById('btn-a').disabled = true;
+                document.getElementById('btn-an').disabled = true;
+
+                playSoundEffect('correct');
+                state.correctCount++;
+
+                if (!state.hasFailedCurrent) {
+                    state.score += 10;
+                    state.streak += 1;
+                } else {
+                    state.score += 5;
+                }
+                updateScoreboard();
+
+                // 顯示填入正確冠詞
+                slot.textContent = selectedArticle;
+                const badgeColor = selectedArticle === 'an' 
+                    ? 'border-rose-400 bg-rose-100 text-rose-600' 
+                    : 'border-sky-400 bg-sky-100 text-sky-600';
+                slot.className = `min-w-[4.5rem] sm:min-w-[5.5rem] h-14 sm:h-16 px-4 rounded-2xl border-4 ${badgeColor} flex items-center justify-center text-3xl sm:text-4xl font-black transition-all scale-110`;
+
+                card.classList.remove('border-sky-200', 'border-rose-400');
+                card.classList.add('border-emerald-400');
+
+                const praise = PRAISE_MESSAGES[Math.floor(Math.random() * PRAISE_MESSAGES.length)];
+                banner.textContent = praise;
+                banner.className = "mt-4 min-h-[3.2rem] w-full rounded-2xl px-4 py-2 flex items-center justify-center text-base sm:text-lg font-extrabold bg-emerald-100 text-emerald-800 border-2 border-emerald-300 transition-all";
+                banner.style.opacity = '1';
+
+                speakEnglish(`${selectedArticle} ${wordObj.word}!`, 0.95);
+
+                if (typeof confetti === 'function') {
+                    confetti({
+                        particleCount: state.streak >= 3 ? 50 : 20,
+                        spread: 55,
+                        origin: { y: 0.7 }
+                    });
+                }
+
+                // 檢查「計時任務模式」是否已達成目標題數
+                if (state.mode === 'target' && state.correctCount >= state.targetCount) {
+                    stopAllTimers();
+                    setTimeout(() => {
+                        finishGame('target_reached');
+                    }, 800);
+                    return;
+                }
+
+                // 限時與計時模式切換速度稍快，讓學生流暢作答
+                const delay = (state.mode === 'practice') ? 1450 : 950;
+                setTimeout(() => {
+                    if (!state.isGameOver) nextQuestion();
+                }, delay);
+
+            } else {
+                // 答錯處理：無任何規則提示，僅鼓勵再試一次
+                playSoundEffect('wrong');
+                state.streak = 0;
+
+                if (!state.hasFailedCurrent) {
+                    state.hasFailedCurrent = true;
+                    if (!state.mistakesInRound.some(m => m.word === wordObj.word)) {
+                        state.mistakesInRound.push(wordObj);
+                    }
+                }
+                updateScoreboard();
+
+                card.classList.remove('animate-shake', 'animate-pop');
+                void card.offsetWidth;
+                card.classList.add('animate-shake', 'border-rose-400');
+
+                banner.textContent = "再想想看，再試一次喔！💪";
+                banner.className = "mt-4 min-h-[3.2rem] w-full rounded-2xl px-4 py-2 flex items-center justify-center text-sm sm:text-base font-extrabold bg-amber-100 text-amber-900 border-2 border-amber-300 transition-all";
+                banner.style.opacity = '1';
+
+                speakCurrentWord();
+            }
+        }
+
+        /**
+         * 9. 遊戲結算畫面
+         */
+        function finishGame(reason) {
+            state.isGameOver = true;
+            stopAllTimers();
+            document.getElementById('btn-a').disabled = true;
+            document.getElementById('btn-an').disabled = true;
+
+            playSoundEffect('win');
+            if (typeof confetti === 'function') {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }
+
+            const titleEl = document.getElementById('summary-title');
+            const subtitleEl = document.getElementById('summary-subtitle');
+            const m1Label = document.getElementById('summary-metric1-label');
+            const m1Val = document.getElementById('summary-metric1-value');
+            const m2Label = document.getElementById('summary-metric2-label');
+            const m2Val = document.getElementById('summary-metric2-value');
+            const starsEl = document.getElementById('summary-stars');
+
+            const attempted = Math.max(1, state.correctCount);
+            const firstTryCorrect = Math.max(0, state.correctCount - state.mistakesInRound.length);
+            const accuracy = state.correctCount === 0 ? 0 : Math.round((firstTryCorrect / attempted) * 100);
+
+            if (reason === 'practice_complete') {
+                titleEl.textContent = "🎉 測驗完成！";
+                subtitleEl.textContent = "10 題練習挑戰結束";
+                m1Label.textContent = "總得分";
+                m1Val.textContent = `${state.score} 分`;
+                m2Label.textContent = "一次答對率";
+                m2Val.textContent = `${accuracy}%`;
+                starsEl.textContent = accuracy >= 90 ? "⭐⭐⭐" : (accuracy >= 60 ? "⭐⭐" : "⭐");
+
+            } else if (reason === 'time_up') {
+                titleEl.textContent = "⏰ 時間到！";
+                subtitleEl.textContent = `在 ${state.timeLimitSeconds} 秒限時挑戰中`;
+                m1Label.textContent = "時間內答對題數";
+                m1Val.textContent = `${state.correctCount} 題`;
+                m2Label.textContent = "一次答對率";
+                m2Val.textContent = `${accuracy}%`;
+                starsEl.textContent = state.correctCount >= 12 ? "⭐⭐⭐" : (state.correctCount >= 6 ? "⭐⭐" : "⭐");
+
+            } else if (reason === 'target_reached') {
+                const finalTimeStr = formatTenths(state.elapsedTenths);
+                titleEl.textContent = "🏆 任務達成！";
+                subtitleEl.textContent = `成功答對 ${state.targetCount} 題目標！`;
+                m1Label.textContent = "任務完成花費時間";
+                m1Val.textContent = finalTimeStr;
+                m2Label.textContent = "一次答對率";
+                m2Val.textContent = `${accuracy}%`;
+                starsEl.textContent = accuracy >= 90 ? "⭐⭐⭐" : (accuracy >= 70 ? "⭐⭐" : "⭐");
+            }
+
+            // 顯示錯題列表或全對鼓勵
+            const mistakesSection = document.getElementById('mistakes-section');
+            const mistakesList = document.getElementById('mistakes-list');
+            const perfectBanner = document.getElementById('perfect-banner');
+
+            if (state.mistakesInRound.length > 0) {
+                mistakesSection.classList.remove('hidden');
+                perfectBanner.classList.add('hidden');
+                mistakesList.innerHTML = '';
+
+                state.mistakesInRound.forEach(item => {
+                    const phrase = `${item.article} ${item.word}`;
+                    const badgeStyle = item.article === 'an' 
+                        ? 'bg-rose-100 text-rose-700 border-rose-300' 
+                        : 'bg-sky-100 text-sky-700 border-sky-300';
+
+                    const row = document.createElement('div');
+                    row.className = "flex items-center justify-between bg-slate-50 hover:bg-amber-50 p-3 rounded-2xl border-2 border-slate-200 cursor-pointer transition";
+                    row.onclick = () => speakEnglish(phrase, 0.85);
+                    row.innerHTML = `
+                        <div class="flex items-center gap-3">
+                            <span class="text-3xl">${item.emoji}</span>
+                            <div>
+                                <div class="text-lg font-black text-slate-800">
+                                    <span class="px-2 py-0.5 rounded-lg border ${badgeStyle} mr-1">${item.article}</span>${item.word}
+                                </div>
+                                <div class="text-xs font-bold text-slate-500">${item.chinese}</div>
+                            </div>
+                        </div>
+                        <span class="text-amber-600 bg-amber-100 p-2 rounded-xl text-sm font-bold">🔊 聽發音</span>
+                    `;
+                    mistakesList.appendChild(row);
+                });
+            } else {
+                mistakesSection.classList.add('hidden');
+                if (state.correctCount > 0) {
+                    perfectBanner.classList.remove('hidden');
+                } else {
+                    perfectBanner.classList.add('hidden');
+                }
+            }
+
+            document.getElementById('summary-modal').classList.remove('hidden');
+        }
+
+        /**
+         * 10. 鍵盤快速鍵支援
+         */
+        document.addEventListener('keydown', (e) => {
+            // 若在主設定畫面，不觸發遊戲按鍵
+            if (!document.getElementById('setup-screen').classList.contains('hidden')) {
+                return;
+            }
+
+            // 若結算視窗開啟，按 Enter 重新玩同一模式
+            if (!document.getElementById('summary-modal').classList.contains('hidden')) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    restartCurrentMode();
+                }
+                return;
+            }
+
+            if (e.key === 'ArrowLeft' || e.key === '1' || e.key.toLowerCase() === 'a') {
+                checkAnswer('a');
+            } else if (e.key === 'ArrowRight' || e.key === '2' || e.key.toLowerCase() === 'b') {
+                checkAnswer('an');
+            } else if (e.key === ' ' || e.key.toLowerCase() === 'r') {
+                e.preventDefault();
+                speakCurrentWord();
+            }
+        });
+
+        window.onload = () => {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.getVoices();
+            }
+        };
+    </script>
+</body>
+</html>
